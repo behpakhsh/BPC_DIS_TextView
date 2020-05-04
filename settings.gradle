@@ -1,0 +1,3 @@
+rootProject.name='BPC_DIS_TextView'
+include ':app'
+include ':distextview'

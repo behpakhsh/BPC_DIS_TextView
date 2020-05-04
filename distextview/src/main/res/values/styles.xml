@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="appCompatImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+</resources>
