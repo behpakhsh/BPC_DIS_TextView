@@ -85,29 +85,29 @@ public class DisTextView extends FrameLayout {
         styledAttributes.recycle();
     }
 
-    private void setPasswordChar(String passwordChar) {
+    public void setPasswordChar(String passwordChar) {
         this.passwordChar = passwordChar;
         setText(text);
     }
 
-    private void setDirection(int direction) {
+    public void setDirection(int direction) {
         clMain.setLayoutDirection(direction);
     }
 
-    private void setGravity(int gravity) {
+    public void setGravity(int gravity) {
         txtText.setGravity(gravity);
     }
 
-    private void setTextStyle(int textStyle) {
+    public void setTextStyle(int textStyle) {
         txtText.setTypeface(txtText.getTypeface(), textStyle);
     }
 
-    private void setPasswordEnable(boolean passwordEnable) {
+    public void setPasswordEnable(boolean passwordEnable) {
         this.passwordEnable = passwordEnable;
         setText(text);
     }
 
-    private void setPasswordToggleEnable(boolean passwordToggleEnable) {
+    public void setPasswordToggleEnable(boolean passwordToggleEnable) {
         if (passwordToggleEnable) {
             btnToggle.setVisibility(VISIBLE);
             checkToggleStatus();
@@ -124,7 +124,7 @@ public class DisTextView extends FrameLayout {
         }
     }
 
-    private void checkToggleStatus() {
+    public void checkToggleStatus() {
         if (isShowingText) {
             passwordEnable = false;
             btnToggle.setImageResource(R.drawable.ic_hide);
@@ -135,16 +135,16 @@ public class DisTextView extends FrameLayout {
         setText(text);
     }
 
-    private void setTextSize(float textSize) {
+    public void setTextSize(float textSize) {
         textSize = textSize / getResources().getDisplayMetrics().density;
         txtText.setTextSize(textSize);
     }
 
-    private void setTextColor(int textColor) {
+    public void setTextColor(int textColor) {
         txtText.setTextColor(textColor);
     }
 
-    private void setBackground(int backgroundColor) {
+    public void setBackground(int backgroundColor) {
         clMain.setBackgroundColor(backgroundColor);
     }
 
@@ -152,7 +152,7 @@ public class DisTextView extends FrameLayout {
         return text;
     }
 
-    private void setText(String text) {
+    public void setText(String text) {
         this.text = text;
         StringBuilder stringBuilder = new StringBuilder();
         if (passwordEnable) {
