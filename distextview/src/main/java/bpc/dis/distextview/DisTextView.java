@@ -42,9 +42,6 @@ public class DisTextView extends FrameLayout {
         clMain = view.findViewById(R.id.cl_main);
         txtText = view.findViewById(R.id.txt_text);
         btnToggle = view.findViewById(R.id.btn_toggle);
-        clMain.setId((int) (System.currentTimeMillis() / 100));
-        txtText.setId((int) (System.currentTimeMillis() / 110));
-        btnToggle.setId((int) (System.currentTimeMillis() / 120));
         setupView(context, attrs);
     }
 
