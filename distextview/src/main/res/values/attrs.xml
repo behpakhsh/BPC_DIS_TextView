@@ -2,7 +2,6 @@
 <resources>
     <declare-styleable name="DisTextView">
 
-        <attr name="dtvPasswordEnable" format="boolean" />
         <attr name="dtvPasswordToggleEnable" format="boolean" />
         <attr name="dtvBackground" format="reference|color" />
         <attr name="dtvPasswordChar" format="reference|string" localization="suggested" />

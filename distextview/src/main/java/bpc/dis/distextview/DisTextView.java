@@ -5,21 +5,20 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class DisTextView extends FrameLayout {
 
-    private ConstraintLayout clMain;
+    private LinearLayout clMain;
     private AppCompatTextView txtText;
     private AppCompatImageButton btnToggle;
 
     private String text;
-    private boolean passwordEnable = false;
     private boolean isShowingText = true;
     private String passwordChar = "*";
 
@@ -51,36 +50,26 @@ public class DisTextView extends FrameLayout {
 
     private void setupView(Context context, AttributeSet attrs) {
         TypedArray styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.DisTextView);
-
         int backgroundColor = styledAttributes.getColor(R.styleable.DisTextView_dtvBackground, context.getResources().getColor(R.color.defaultBackgroundColor));
         setBackground(backgroundColor);
+        String text = styledAttributes.getString(R.styleable.DisTextView_dtvText);
+        setText(text);
+        int textColor = styledAttributes.getColor(R.styleable.DisTextView_dtvTextColor, context.getResources().getColor(R.color.defaultTextColor));
+        setTextColor(textColor);
+        float textSize = styledAttributes.getDimension(R.styleable.DisTextView_dtvTextSize, context.getResources().getDimension(R.dimen.defaultTextSize));
+        setTextSize(textSize);
+        int textStyle = styledAttributes.getInteger(R.styleable.DisTextView_dtvTextStyle, 0);
+        setTextStyle(textStyle);
+        int gravity = styledAttributes.getInteger(R.styleable.DisTextView_dtvGravity, 17);
+        setGravity(gravity);
+        int direction = styledAttributes.getInteger(R.styleable.DisTextView_dtvDirection, 1);
+        setDirection(direction);
+
 
         String passwordChar = styledAttributes.getString(R.styleable.DisTextView_dtvPasswordChar);
         setPasswordChar(passwordChar);
-
-        String text = styledAttributes.getString(R.styleable.DisTextView_dtvText);
-        setText(text);
-
-        int textColor = styledAttributes.getColor(R.styleable.DisTextView_dtvTextColor, context.getResources().getColor(R.color.defaultTextColor));
-        setTextColor(textColor);
-
-        float textSize = styledAttributes.getDimension(R.styleable.DisTextView_dtvTextSize, context.getResources().getDimension(R.dimen.defaultTextSize));
-        setTextSize(textSize);
-
-        boolean passwordEnable = styledAttributes.getBoolean(R.styleable.DisTextView_dtvPasswordToggleEnable, false);
-        setPasswordEnable(passwordEnable);
-
         boolean passwordToggleEnable = styledAttributes.getBoolean(R.styleable.DisTextView_dtvPasswordToggleEnable, false);
         setPasswordToggleEnable(passwordToggleEnable);
-
-        int textStyle = styledAttributes.getInteger(R.styleable.DisTextView_dtvTextStyle, 0);
-        setTextStyle(textStyle);
-
-        int gravity = styledAttributes.getInteger(R.styleable.DisTextView_dtvGravity, 17);
-        setGravity(gravity);
-
-        int direction = styledAttributes.getInteger(R.styleable.DisTextView_dtvDirection, 1);
-        setDirection(direction);
 
         styledAttributes.recycle();
     }
@@ -102,15 +91,10 @@ public class DisTextView extends FrameLayout {
         txtText.setTypeface(txtText.getTypeface(), textStyle);
     }
 
-    public void setPasswordEnable(boolean passwordEnable) {
-        this.passwordEnable = passwordEnable;
-        setText(text);
-    }
-
     public void setPasswordToggleEnable(boolean passwordToggleEnable) {
         if (passwordToggleEnable) {
+            isShowingText = false;
             btnToggle.setVisibility(VISIBLE);
-            checkToggleStatus();
             btnToggle.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -119,20 +103,20 @@ public class DisTextView extends FrameLayout {
                 }
             });
         } else {
+            isShowingText = true;
             btnToggle.setVisibility(GONE);
             btnToggle.setOnClickListener(null);
         }
+        checkToggleStatus();
+        setText(text);
     }
 
     public void checkToggleStatus() {
         if (isShowingText) {
-            passwordEnable = false;
             btnToggle.setImageResource(R.drawable.ic_hide);
         } else {
-            passwordEnable = true;
             btnToggle.setImageResource(R.drawable.ic_show);
         }
-        setText(text);
     }
 
     public void setTextSize(float textSize) {
@@ -155,7 +139,7 @@ public class DisTextView extends FrameLayout {
     public void setText(String text) {
         this.text = text;
         StringBuilder stringBuilder = new StringBuilder();
-        if (passwordEnable) {
+        if (passwordChar != null) {
             for (int i = 0; i < this.text.length(); i++) {
                 stringBuilder.append(passwordChar);
             }
