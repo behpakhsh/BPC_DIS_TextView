@@ -138,8 +138,12 @@ public class DisTextView extends FrameLayout {
         this.text = text;
         StringBuilder stringBuilder = new StringBuilder();
         if (passwordChar != null) {
-            for (int i = 0; i < this.text.length(); i++) {
-                stringBuilder.append(passwordChar);
+            if (isShowingText) {
+                stringBuilder.append(text);
+            } else {
+                for (int i = 0; i < this.text.length(); i++) {
+                    stringBuilder.append(passwordChar);
+                }
             }
         } else {
             stringBuilder.append(text);
