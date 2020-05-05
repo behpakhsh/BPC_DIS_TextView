@@ -97,6 +97,7 @@ public class DisTextView extends FrameLayout {
                 public void onClick(View v) {
                     isShowingText = !isShowingText;
                     checkToggleStatus();
+                    setText(text);
                 }
             });
         } else {
