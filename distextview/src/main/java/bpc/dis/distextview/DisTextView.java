@@ -12,13 +12,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import bpc.dis.utilities.StringUtilities.StringUtilities;
+
 public class DisTextView extends FrameLayout {
 
     private View view;
 
     private String text;
     private boolean isShowingText = true;
+    private boolean passwordToggleEnable = false;
     private String passwordChar = "*";
+    private int textType = 0;
 
     public DisTextView(@NonNull Context context) {
         super(context);
@@ -43,7 +47,7 @@ public class DisTextView extends FrameLayout {
     private void setupView(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.DisTextView);
         setBackground(styledAttributes.getColor(R.styleable.DisTextView_dtvBackground, context.getResources().getColor(R.color.defaultBackgroundColor)));
-        setText(styledAttributes.getString(R.styleable.DisTextView_dtvText));
+        setTextType(styledAttributes.getInteger(R.styleable.DisTextView_dtvTextType, 0));
         setTextColor(styledAttributes.getColor(R.styleable.DisTextView_dtvTextColor, context.getResources().getColor(R.color.defaultTextColor)));
         setTextSize(styledAttributes.getDimension(R.styleable.DisTextView_dtvTextSize, context.getResources().getDimension(R.dimen.defaultTextSize)));
         setTextStyle(styledAttributes.getInteger(R.styleable.DisTextView_dtvTextStyle, 0));
@@ -55,8 +59,10 @@ public class DisTextView extends FrameLayout {
         setLineColor(styledAttributes.getColor(R.styleable.DisTextView_dtvLineColor, context.getResources().getColor(R.color.defaultLineColor)));
         setUnderlineEnable(styledAttributes.getBoolean(R.styleable.DisTextView_dtvUnderlineEnable, false));
         setUnderlineColor(styledAttributes.getColor(R.styleable.DisTextView_dtvUnderlineColor, context.getResources().getColor(R.color.defaultUnderlineColor)));
+        setText(styledAttributes.getString(R.styleable.DisTextView_dtvText));
         styledAttributes.recycle();
     }
+
 
     public void setLineEnable(boolean enable) {
         View line = view.findViewById(R.id.view_line);
@@ -86,11 +92,6 @@ public class DisTextView extends FrameLayout {
         line.setBackgroundColor(color);
     }
 
-    public void setPasswordChar(String passwordChar) {
-        this.passwordChar = passwordChar;
-        setText(text);
-    }
-
     public void setDirection(int direction) {
         LinearLayout llMain = view.findViewById(R.id.ll_dtv_main);
         llMain.setLayoutDirection(direction);
@@ -106,35 +107,8 @@ public class DisTextView extends FrameLayout {
         txtText.setTypeface(txtText.getTypeface(), textStyle);
     }
 
-    public void setPasswordToggleEnable(boolean passwordToggleEnable) {
-        AppCompatImageButton btnToggle = view.findViewById(R.id.btn_toggle);
-        if (passwordToggleEnable) {
-            isShowingText = false;
-            btnToggle.setVisibility(VISIBLE);
-            btnToggle.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isShowingText = !isShowingText;
-                    checkToggleStatus();
-                    setText(text);
-                }
-            });
-        } else {
-            isShowingText = true;
-            btnToggle.setVisibility(GONE);
-            btnToggle.setOnClickListener(null);
-        }
-        checkToggleStatus();
-        setText(text);
-    }
-
-    public void checkToggleStatus() {
-        AppCompatImageButton btnToggle = view.findViewById(R.id.btn_toggle);
-        if (isShowingText) {
-            btnToggle.setImageResource(R.drawable.ic_hide);
-        } else {
-            btnToggle.setImageResource(R.drawable.ic_show);
-        }
+    public void setTextType(int textType) {
+        this.textType = textType;
     }
 
     public void setTextSize(float textSize) {
@@ -162,20 +136,78 @@ public class DisTextView extends FrameLayout {
         if (text == null) {
             text = "";
         }
-        this.text = text;
-        StringBuilder stringBuilder = new StringBuilder();
-        if (passwordChar != null) {
-            if (isShowingText) {
-                stringBuilder.append(text);
-            } else {
-                for (int i = 0; i < this.text.length(); i++) {
-                    stringBuilder.append(passwordChar);
-                }
-            }
+        if (this.textType == 0) {
+            manageNormalType(text);
+        } else if (this.textType == 1) {
+            manageCurrencyType(text);
+        } else if (this.textType == 2) {
+            managePasswordType(text);
         } else {
-            stringBuilder.append(text);
+            this.text = text;
         }
-        txtText.setText(stringBuilder.toString());
+        txtText.setText(this.text);
+    }
+
+
+    private void manageCurrencyType(String text) {
+        if (StringUtilities.isNotNumber(text)) {
+            this.text = text;
+        } else {
+            this.text = StringUtilities.getCurrencyFormatter(Double.parseDouble(text));
+        }
+    }
+
+    private void manageNormalType(String text) {
+        this.text = text;
+    }
+
+    private void managePasswordType(String text) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            stringBuilder.append(passwordChar);
+        }
+        this.text = stringBuilder.toString();
+        manageBtnToggle();
+    }
+
+    private void setPasswordToggleEnable(boolean passwordToggleEnable) {
+        this.passwordToggleEnable = passwordToggleEnable;
+    }
+
+    private void setPasswordChar(String passwordChar) {
+        if (passwordChar == null || !passwordChar.isEmpty()) {
+            passwordChar = "*";
+        }
+        this.passwordChar = passwordChar;
+    }
+
+    private void manageBtnToggle() {
+        AppCompatImageButton btnToggle = view.findViewById(R.id.btn_toggle);
+        if (passwordToggleEnable) {
+            btnToggle.setVisibility(VISIBLE);
+            btnToggle.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isShowingText = !isShowingText;
+                    checkToggleStatus();
+                    setText(DisTextView.this.text);
+                }
+            });
+            checkToggleStatus();
+        } else {
+            isShowingText = true;
+            btnToggle.setVisibility(GONE);
+            btnToggle.setOnClickListener(null);
+        }
+    }
+
+    private void checkToggleStatus() {
+        AppCompatImageButton btnToggle = view.findViewById(R.id.btn_toggle);
+        if (isShowingText) {
+            btnToggle.setImageResource(R.drawable.ic_hide);
+        } else {
+            btnToggle.setImageResource(R.drawable.ic_show);
+        }
     }
 
 }

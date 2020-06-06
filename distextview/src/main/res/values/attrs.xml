@@ -40,6 +40,10 @@
             <flag name="start" value="0x00800003" />
             <flag name="end" value="0x00800005" />
         </attr>
-
+        <attr name="dtvTextType">
+            <flag name="normal" value="0" />
+            <flag name="currency" value="1" />
+            <flag name="password" value="2" />
+        </attr>
     </declare-styleable>
 </resources>
