@@ -186,10 +186,14 @@ public class DisTextView extends FrameLayout {
 
 
     private void manageCurrencyType(String text) {
-        if (StringUtilities.isNotNumber(text)) {
+        if (text.isEmpty()) {
             this.text = text;
         } else {
-            this.text = StringUtilities.getCurrencyFormatter(Double.parseDouble(text));
+            if (StringUtilities.isNotNumber(text)) {
+                this.text = text;
+            } else {
+                this.text = StringUtilities.getCurrencyFormatter(Double.parseDouble(text));
+            }
         }
     }
 
