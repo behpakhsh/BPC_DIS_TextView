@@ -174,6 +174,7 @@ public class DisTextView extends FrameLayout {
         for (int i = 0; i < text.length(); i++) {
             stringBuilder.append(passwordChar);
         }
+        this.text = text;
         this.passwordText = stringBuilder.toString();
         manageBtnToggle();
     }
