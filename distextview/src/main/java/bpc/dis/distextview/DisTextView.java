@@ -58,7 +58,7 @@ public class DisTextView extends FrameLayout {
         styledAttributes.recycle();
     }
 
-    private void setLineEnable(boolean enable) {
+    public void setLineEnable(boolean enable) {
         View line = view.findViewById(R.id.view_line);
         if (enable) {
             line.setVisibility(VISIBLE);
@@ -67,12 +67,12 @@ public class DisTextView extends FrameLayout {
         }
     }
 
-    private void setLineColor(int color) {
+    public void setLineColor(int color) {
         View line = view.findViewById(R.id.view_line);
         line.setBackgroundColor(color);
     }
 
-    private void setUnderlineEnable(boolean enable) {
+    public void setUnderlineEnable(boolean enable) {
         View line = view.findViewById(R.id.view_underline);
         if (enable) {
             line.setVisibility(VISIBLE);
@@ -81,7 +81,7 @@ public class DisTextView extends FrameLayout {
         }
     }
 
-    private void setUnderlineColor(int color) {
+    public void setUnderlineColor(int color) {
         View line = view.findViewById(R.id.view_underline);
         line.setBackgroundColor(color);
     }
