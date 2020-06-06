@@ -19,7 +19,8 @@ public class DisTextView extends FrameLayout {
     private View view;
 
     private String text;
-    private boolean isShowingText = true;
+    private String passwordText = "";
+    private boolean isShowingText = false;
     private boolean passwordToggleEnable = false;
     private String passwordChar = "*";
     private int textType = 0;
@@ -138,14 +139,21 @@ public class DisTextView extends FrameLayout {
         }
         if (this.textType == 0) {
             manageNormalType(text);
+            txtText.setText(this.text);
         } else if (this.textType == 1) {
             manageCurrencyType(text);
+            txtText.setText(this.text);
         } else if (this.textType == 2) {
             managePasswordType(text);
+            if (isShowingText){
+                txtText.setText(this.text);
+            }else {
+                txtText.setText(this.passwordText);
+            }
         } else {
             this.text = text;
+            txtText.setText(this.text);
         }
-        txtText.setText(this.text);
     }
 
 
@@ -166,7 +174,7 @@ public class DisTextView extends FrameLayout {
         for (int i = 0; i < text.length(); i++) {
             stringBuilder.append(passwordChar);
         }
-        this.text = stringBuilder.toString();
+        this.passwordText = stringBuilder.toString();
         manageBtnToggle();
     }
 
