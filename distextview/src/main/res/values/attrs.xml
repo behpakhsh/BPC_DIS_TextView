@@ -3,6 +3,10 @@
     <declare-styleable name="DisTextView">
 
         <attr name="dtvPasswordToggleEnable" format="boolean" />
+        <attr name="dtvLineEnable" format="boolean" />
+        <attr name="dtvLineColor" format="reference|color" />
+        <attr name="dtvUnderlineEnable" format="boolean" />
+        <attr name="dtvUnderlineColor" format="reference|color" />
         <attr name="dtvBackground" format="reference|color" />
         <attr name="dtvPasswordChar" format="reference|string" localization="suggested" />
         <attr name="dtvText" format="reference|string" localization="suggested" />
@@ -38,5 +42,4 @@
         </attr>
 
     </declare-styleable>
-
 </resources>

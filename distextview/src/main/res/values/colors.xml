@@ -2,4 +2,6 @@
 <resources>
     <color name="defaultBackgroundColor">#00FFFFFF</color>
     <color name="defaultTextColor">#000000</color>
+    <color name="defaultLineColor">#e53240</color>
+    <color name="defaultUnderlineColor">#03A9F4</color>
 </resources>

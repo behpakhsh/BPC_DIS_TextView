@@ -14,9 +14,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 public class DisTextView extends FrameLayout {
 
-    private LinearLayout clMain;
-    private AppCompatTextView txtText;
-    private AppCompatImageButton btnToggle;
+    private View view;
 
     private String text;
     private boolean isShowingText = true;
@@ -38,37 +36,54 @@ public class DisTextView extends FrameLayout {
     }
 
     public void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        View view = inflate(context, R.layout.dis_text_view, this);
-        clMain = view.findViewById(R.id.cl_main);
-        txtText = view.findViewById(R.id.txt_text);
-        btnToggle = view.findViewById(R.id.btn_toggle);
-        setupView(context, attrs);
+        view = inflate(context, R.layout.dis_text_view, this);
+        setupView(context, attrs, defStyleAttr);
     }
 
-    private void setupView(Context context, AttributeSet attrs) {
+    private void setupView(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.DisTextView);
-        int backgroundColor = styledAttributes.getColor(R.styleable.DisTextView_dtvBackground, context.getResources().getColor(R.color.defaultBackgroundColor));
-        setBackground(backgroundColor);
-        String text = styledAttributes.getString(R.styleable.DisTextView_dtvText);
-        setText(text);
-        int textColor = styledAttributes.getColor(R.styleable.DisTextView_dtvTextColor, context.getResources().getColor(R.color.defaultTextColor));
-        setTextColor(textColor);
-        float textSize = styledAttributes.getDimension(R.styleable.DisTextView_dtvTextSize, context.getResources().getDimension(R.dimen.defaultTextSize));
-        setTextSize(textSize);
-        int textStyle = styledAttributes.getInteger(R.styleable.DisTextView_dtvTextStyle, 0);
-        setTextStyle(textStyle);
-        int gravity = styledAttributes.getInteger(R.styleable.DisTextView_dtvGravity, 17);
-        setGravity(gravity);
-        int direction = styledAttributes.getInteger(R.styleable.DisTextView_dtvDirection, 1);
-        setDirection(direction);
-
-
-        String passwordChar = styledAttributes.getString(R.styleable.DisTextView_dtvPasswordChar);
-        setPasswordChar(passwordChar);
-        boolean passwordToggleEnable = styledAttributes.getBoolean(R.styleable.DisTextView_dtvPasswordToggleEnable, false);
-        setPasswordToggleEnable(passwordToggleEnable);
-
+        setBackground(styledAttributes.getColor(R.styleable.DisTextView_dtvBackground, context.getResources().getColor(R.color.defaultBackgroundColor)));
+        setText(styledAttributes.getString(R.styleable.DisTextView_dtvText));
+        setTextColor(styledAttributes.getColor(R.styleable.DisTextView_dtvTextColor, context.getResources().getColor(R.color.defaultTextColor)));
+        setTextSize(styledAttributes.getDimension(R.styleable.DisTextView_dtvTextSize, context.getResources().getDimension(R.dimen.defaultTextSize)));
+        setTextStyle(styledAttributes.getInteger(R.styleable.DisTextView_dtvTextStyle, 0));
+        setGravity(styledAttributes.getInteger(R.styleable.DisTextView_dtvGravity, 17));
+        setDirection(styledAttributes.getInteger(R.styleable.DisTextView_dtvDirection, 1));
+        setPasswordChar(styledAttributes.getString(R.styleable.DisTextView_dtvPasswordChar));
+        setPasswordToggleEnable(styledAttributes.getBoolean(R.styleable.DisTextView_dtvPasswordToggleEnable, false));
+        setLineEnable(styledAttributes.getBoolean(R.styleable.DisTextView_dtvLineEnable, false));
+        setLineColor(styledAttributes.getColor(R.styleable.DisTextView_dtvLineColor, context.getResources().getColor(R.color.defaultLineColor)));
+        setUnderlineEnable(styledAttributes.getBoolean(R.styleable.DisTextView_dtvUnderlineEnable, false));
+        setUnderlineColor(styledAttributes.getColor(R.styleable.DisTextView_dtvUnderlineColor, context.getResources().getColor(R.color.defaultUnderlineColor)));
         styledAttributes.recycle();
+    }
+
+    private void setLineEnable(boolean enable) {
+        View line = view.findViewById(R.id.view_line);
+        if (enable) {
+            line.setVisibility(VISIBLE);
+        } else {
+            line.setVisibility(GONE);
+        }
+    }
+
+    private void setLineColor(int color) {
+        View line = view.findViewById(R.id.view_line);
+        line.setBackgroundColor(color);
+    }
+
+    private void setUnderlineEnable(boolean enable) {
+        View line = view.findViewById(R.id.view_underline);
+        if (enable) {
+            line.setVisibility(VISIBLE);
+        } else {
+            line.setVisibility(GONE);
+        }
+    }
+
+    private void setUnderlineColor(int color) {
+        View line = view.findViewById(R.id.view_underline);
+        line.setBackgroundColor(color);
     }
 
     public void setPasswordChar(String passwordChar) {
@@ -77,18 +92,22 @@ public class DisTextView extends FrameLayout {
     }
 
     public void setDirection(int direction) {
-        clMain.setLayoutDirection(direction);
+        LinearLayout llMain = view.findViewById(R.id.ll_dtv_main);
+        llMain.setLayoutDirection(direction);
     }
 
     public void setGravity(int gravity) {
+        AppCompatTextView txtText = view.findViewById(R.id.txt_text);
         txtText.setGravity(gravity);
     }
 
     public void setTextStyle(int textStyle) {
+        AppCompatTextView txtText = view.findViewById(R.id.txt_text);
         txtText.setTypeface(txtText.getTypeface(), textStyle);
     }
 
     public void setPasswordToggleEnable(boolean passwordToggleEnable) {
+        AppCompatImageButton btnToggle = view.findViewById(R.id.btn_toggle);
         if (passwordToggleEnable) {
             isShowingText = false;
             btnToggle.setVisibility(VISIBLE);
@@ -110,6 +129,7 @@ public class DisTextView extends FrameLayout {
     }
 
     public void checkToggleStatus() {
+        AppCompatImageButton btnToggle = view.findViewById(R.id.btn_toggle);
         if (isShowingText) {
             btnToggle.setImageResource(R.drawable.ic_hide);
         } else {
@@ -118,16 +138,19 @@ public class DisTextView extends FrameLayout {
     }
 
     public void setTextSize(float textSize) {
+        AppCompatTextView txtText = view.findViewById(R.id.txt_text);
         textSize = textSize / getResources().getDisplayMetrics().density;
         txtText.setTextSize(textSize);
     }
 
     public void setTextColor(int textColor) {
+        AppCompatTextView txtText = view.findViewById(R.id.txt_text);
         txtText.setTextColor(textColor);
     }
 
     public void setBackground(int backgroundColor) {
-        clMain.setBackgroundColor(backgroundColor);
+        LinearLayout llMain = view.findViewById(R.id.ll_dtv_main);
+        llMain.setBackgroundColor(backgroundColor);
     }
 
     public String getText() {
@@ -135,6 +158,7 @@ public class DisTextView extends FrameLayout {
     }
 
     public void setText(String text) {
+        AppCompatTextView txtText = view.findViewById(R.id.txt_text);
         this.text = text;
         StringBuilder stringBuilder = new StringBuilder();
         if (passwordChar != null) {
