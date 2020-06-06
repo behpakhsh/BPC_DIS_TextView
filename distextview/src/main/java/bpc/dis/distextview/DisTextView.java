@@ -47,14 +47,17 @@ public class DisTextView extends FrameLayout {
 
     private void setupView(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.DisTextView);
-        setBackground(styledAttributes.getColor(R.styleable.DisTextView_dtvBackground, context.getResources().getColor(R.color.defaultBackgroundColor)));
         setTextType(styledAttributes.getInteger(R.styleable.DisTextView_dtvTextType, 0));
+        setBackground(styledAttributes.getColor(R.styleable.DisTextView_dtvBackground, context.getResources().getColor(R.color.defaultBackgroundColor)));
         setTextColor(styledAttributes.getColor(R.styleable.DisTextView_dtvTextColor, context.getResources().getColor(R.color.defaultTextColor)));
         setTextSize(styledAttributes.getDimension(R.styleable.DisTextView_dtvTextSize, context.getResources().getDimension(R.dimen.defaultTextSize)));
         setTextStyle(styledAttributes.getInteger(R.styleable.DisTextView_dtvTextStyle, 0));
         setGravity(styledAttributes.getInteger(R.styleable.DisTextView_dtvGravity, 17));
         setDirection(styledAttributes.getInteger(R.styleable.DisTextView_dtvDirection, 1));
         setPasswordChar(styledAttributes.getString(R.styleable.DisTextView_dtvPasswordChar));
+        setPriceUnit(styledAttributes.getString(R.styleable.DisTextView_dtvPriceUnit));
+        setPriceUnitTextColor(styledAttributes.getColor(R.styleable.DisTextView_dtvPriceUnitTextColor, context.getResources().getColor(R.color.defaultTextColor)));
+        setPriceUnitTextSize(styledAttributes.getDimension(R.styleable.DisTextView_dtvPriceUnitTextSize, context.getResources().getDimension(R.dimen.defaultTextSize)));
         setPasswordToggleEnable(styledAttributes.getBoolean(R.styleable.DisTextView_dtvPasswordToggleEnable, false));
         setLineEnable(styledAttributes.getBoolean(R.styleable.DisTextView_dtvLineEnable, false));
         setLineColor(styledAttributes.getColor(R.styleable.DisTextView_dtvLineColor, context.getResources().getColor(R.color.defaultLineColor)));
@@ -145,15 +148,40 @@ public class DisTextView extends FrameLayout {
             txtText.setText(this.text);
         } else if (this.textType == 2) {
             managePasswordType(text);
-            if (isShowingText){
+            if (isShowingText) {
                 txtText.setText(this.text);
-            }else {
+            } else {
                 txtText.setText(this.passwordText);
             }
         } else {
             this.text = text;
             txtText.setText(this.text);
         }
+    }
+
+    public void setPriceUnit(String priceUnit) {
+        AppCompatTextView txtPriceUnit = view.findViewById(R.id.txt_price_unit);
+        if (textType == 1) {
+            if (priceUnit != null && !priceUnit.isEmpty()) {
+                txtPriceUnit.setVisibility(VISIBLE);
+                txtPriceUnit.setText(priceUnit);
+            } else {
+                txtPriceUnit.setVisibility(GONE);
+            }
+        } else {
+            txtPriceUnit.setVisibility(GONE);
+        }
+    }
+
+    public void setPriceUnitTextColor(int textColor) {
+        AppCompatTextView txtText = view.findViewById(R.id.txt_price_unit);
+        txtText.setTextColor(textColor);
+    }
+
+    public void setPriceUnitTextSize(float textSize) {
+        AppCompatTextView txtText = view.findViewById(R.id.txt_price_unit);
+        textSize = textSize / getResources().getDisplayMetrics().density;
+        txtText.setTextSize(textSize);
     }
 
 
@@ -165,9 +193,11 @@ public class DisTextView extends FrameLayout {
         }
     }
 
+
     private void manageNormalType(String text) {
         this.text = text;
     }
+
 
     private void managePasswordType(String text) {
         StringBuilder stringBuilder = new StringBuilder();

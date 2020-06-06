@@ -2,6 +2,9 @@
 <resources>
     <declare-styleable name="DisTextView">
 
+        <attr name="dtvPriceUnit" format="reference|string" localization="suggested" />
+        <attr name="dtvPriceUnitTextColor" format="reference|color" />
+        <attr name="dtvPriceUnitTextSize" format="dimension" />
         <attr name="dtvPasswordToggleEnable" format="boolean" />
         <attr name="dtvLineEnable" format="boolean" />
         <attr name="dtvLineColor" format="reference|color" />
