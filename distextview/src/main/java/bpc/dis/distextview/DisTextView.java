@@ -159,6 +159,9 @@ public class DisTextView extends FrameLayout {
 
     public void setText(String text) {
         AppCompatTextView txtText = view.findViewById(R.id.txt_text);
+        if (text == null) {
+            text = "";
+        }
         this.text = text;
         StringBuilder stringBuilder = new StringBuilder();
         if (passwordChar != null) {
