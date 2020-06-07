@@ -33,7 +33,7 @@
             android:id="@+id/txt_price_unit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/txt_text"
             app:layout_constraintStart_toStartOf="parent"
