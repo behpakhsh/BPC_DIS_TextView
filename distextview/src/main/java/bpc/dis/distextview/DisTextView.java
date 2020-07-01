@@ -55,9 +55,12 @@ public class DisTextView extends FrameLayout {
         setGravity(styledAttributes.getInteger(R.styleable.DisTextView_dtvGravity, 17));
         setDirection(styledAttributes.getInteger(R.styleable.DisTextView_dtvDirection, 1));
         setPasswordChar(styledAttributes.getString(R.styleable.DisTextView_dtvPasswordChar));
-        setPriceUnit(styledAttributes.getString(R.styleable.DisTextView_dtvPriceUnit));
-        setPriceUnitTextColor(styledAttributes.getColor(R.styleable.DisTextView_dtvPriceUnitTextColor, context.getResources().getColor(R.color.defaultTextColor)));
-        setPriceUnitTextSize(styledAttributes.getDimension(R.styleable.DisTextView_dtvPriceUnitTextSize, context.getResources().getDimension(R.dimen.defaultTextSize)));
+        setUnitText(styledAttributes.getString(R.styleable.DisTextView_dtvPriceUnitText));
+        setUnitTextColor(styledAttributes.getColor(R.styleable.DisTextView_dtvPriceUnitTextColor, context.getResources().getColor(R.color.defaultTextColor)));
+        setUnitTextSize(styledAttributes.getDimension(R.styleable.DisTextView_dtvPriceUnitTextSize, context.getResources().getDimension(R.dimen.defaultTextSize)));
+        setAfterUnitText(styledAttributes.getString(R.styleable.DisTextView_dtvAfterUnitText));
+        setAfterUnitTextColor(styledAttributes.getColor(R.styleable.DisTextView_dtvAfterUnitTextColor, context.getResources().getColor(R.color.defaultTextColor)));
+        setAfterUnitTextSize(styledAttributes.getDimension(R.styleable.DisTextView_dtvAfterUnitTextSize, context.getResources().getDimension(R.dimen.defaultTextSize)));
         setPasswordToggleEnable(styledAttributes.getBoolean(R.styleable.DisTextView_dtvPasswordToggleEnable, false));
         setLineEnable(styledAttributes.getBoolean(R.styleable.DisTextView_dtvLineEnable, false));
         setLineColor(styledAttributes.getColor(R.styleable.DisTextView_dtvLineColor, context.getResources().getColor(R.color.defaultLineColor)));
@@ -159,7 +162,7 @@ public class DisTextView extends FrameLayout {
         }
     }
 
-    public void setPriceUnit(String priceUnit) {
+    public void setUnitText(String priceUnit) {
         AppCompatTextView txtPriceUnit = view.findViewById(R.id.txt_price_unit);
         if (textType == 1) {
             if (priceUnit != null && !priceUnit.isEmpty()) {
@@ -173,15 +176,40 @@ public class DisTextView extends FrameLayout {
         }
     }
 
-    public void setPriceUnitTextColor(int textColor) {
+    public void setUnitTextColor(int textColor) {
         AppCompatTextView txtText = view.findViewById(R.id.txt_price_unit);
         txtText.setTextColor(textColor);
     }
 
-    public void setPriceUnitTextSize(float textSize) {
+    public void setUnitTextSize(float textSize) {
         AppCompatTextView txtText = view.findViewById(R.id.txt_price_unit);
         textSize = textSize / getResources().getDisplayMetrics().density;
         txtText.setTextSize(textSize);
+    }
+
+    public void setAfterUnitText(String text) {
+        AppCompatTextView txtPriceAfterUnit = view.findViewById(R.id.txt_after_unit);
+        if (textType == 1) {
+            if (text != null && !text.isEmpty()) {
+                txtPriceAfterUnit.setVisibility(VISIBLE);
+                txtPriceAfterUnit.setText(text);
+            } else {
+                txtPriceAfterUnit.setVisibility(GONE);
+            }
+        } else {
+            txtPriceAfterUnit.setVisibility(GONE);
+        }
+    }
+
+    public void setAfterUnitTextColor(int textColor) {
+        AppCompatTextView txtPriceAfterUnit = view.findViewById(R.id.txt_after_unit);
+        txtPriceAfterUnit.setTextColor(textColor);
+    }
+
+    public void setAfterUnitTextSize(float textSize) {
+        AppCompatTextView txtPriceAfterUnit = view.findViewById(R.id.txt_after_unit);
+        textSize = textSize / getResources().getDisplayMetrics().density;
+        txtPriceAfterUnit.setTextSize(textSize);
     }
 
 

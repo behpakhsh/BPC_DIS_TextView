@@ -7,12 +7,13 @@
     <bpc.dis.distextview.DisTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:dtvAfterUnitText="test"
         app:dtvGravity="center_vertical"
+        app:dtvPriceUnit="ريال"
+        app:dtvText="123456874"
+        app:dtvTextType="currency"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:dtvTextType="password"
-        app:dtvPasswordToggleEnable="true"
-        app:dtvText="123456874"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
