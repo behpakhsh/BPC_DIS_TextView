@@ -217,10 +217,18 @@ public class DisTextView extends FrameLayout {
         if (text.isEmpty()) {
             this.text = text;
         } else {
+            boolean negativePrice = false;
+            if (text.startsWith("-")) {
+                text = text.replace("-", "");
+                negativePrice = true;
+            }
             if (StringUtilities.isNotNumber(text)) {
                 this.text = text;
             } else {
                 this.text = StringUtilities.getCurrencyFormatter(Double.parseDouble(text));
+                if (negativePrice) {
+                    this.text = "-" + this.text;
+                }
             }
         }
     }
